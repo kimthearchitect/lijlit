@@ -139,15 +139,16 @@ span.answer {
 
 .today-title:nth-child(1) {
   flex-basis:  200px
-}     
+}
 .today-content:nth-child(2) {
-  flex-grow: 1; 
+  flex-grow: 1;
 }
 
 .today-words {
   margin: 40px 10px;
   padding: 4px 20px;
 }
+
 
 .today-words .question {
   padding-left: 20px;
@@ -169,11 +170,11 @@ span.answer {
   font-size: 16px;
 }
 
-.fi-volume { 
+.fi-volume {
   display: inline;
   vertical-align: baseline;
   font-size: 16px;
-  line-height: 20px; 
+  line-height: 20px;
   }
 
 .today-title {
@@ -261,5 +262,3 @@ input.white {
   color: #6246ea;
   font-size: 16px;
 }
-
-

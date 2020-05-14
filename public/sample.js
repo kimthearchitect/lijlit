@@ -1,3 +1,17 @@
+//Shuffle function for array
+Array.prototype.shuffle = function () {
+  let i, j, temp;
+  i = this.length;
+  while (i) {
+    j = Math.floor(Math.random() * i);
+    i--;
+    temp = this[i];
+    this[i] = this[j];
+    this[j] = temp;
+  }
+  return this;
+}
+
 
 const wordsList = [
   { question: "vote", hint: "動詞", answer: "投票する" },
@@ -132,10 +146,77 @@ spanAnswer.className = "answer";
 const words = document.getElementById('allWordsList')
 const questions = document.getElementById('allQuestionList')
 
-//create to fragment
-const fragment = document.createDocumentFragment();
+// create each list (words and question)
+wordsList.shuffle().forEach(word => words.appendChild(createListWords(word)))
+questionList.shuffle().forEach(phrase => questions.appendChild(createListPhrase(phrase)))
+
+//get div from document (for random)
+const todayWords = document.getElementById("todayWords")
+
+todayWords.appendChild(todayRandomWords())
+todayWords.appendChild(todayRandomQuestionPhrase())
+
+//Get id or class
+const testPaper = document.getElementById("paperQandA")
+const inputAnswer = document.querySelectorAll(".testTextInput")
+
+//Create elements for span and input
+const spanQ = document.createElement('span')
+spanQ.className = "test-question"
+const spanH = document.createElement('span')
+spanH.className = "test-hint"
+const input = document.createElement('input')
+input.className = "testTextInput"
+input.type = "text"
+const spanA = document.createElement('span')
+spanA.className = "test-answer"
+
+let randomWords10 = []
+resetQuestion()
+
+function resetQuestion() {
+  //Select random 10 words
+  const copy = wordsList.slice();
+  randomWords10 = [...Array(10)].map(() => copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+  Array.from(testPaper.children).forEach(child => testPaper.removeChild(child));
+  randomWords10.forEach(test => testPaper.appendChild(paperText(test)));
+}
 
 //Create list in fragment function from words and question
+function speak(word) {
+  const u = new SpeechSynthesisUtterance();
+  u.lang = 'en-US';
+  u.text = word;
+  speechSynthesis.speak(u);
+}
+
+function createListWords(word) {
+  const li = document.createElement('li');
+  li.className = "post words";
+  li.onclick = () => {
+    speak(word.question)
+  }
+  spanQuestion.textContent = word.question;
+  spanHint.textContent = word.hint;
+  spanAnswer.textContent = word.answer;
+  li.appendChild(spanQuestion.cloneNode(true));
+  li.appendChild(spanHint.cloneNode(true));
+  li.appendChild(spanAnswer.cloneNode(true));
+  return li
+};
+function createListPhrase(phrase) {
+  const li = document.createElement('li');
+  li.className = "post phrase";
+  li.onclick = () => {
+    speak(phrase.question)
+  }
+  spanQuestion.textContent = phrase.question;
+  spanAnswer.textContent = phrase.answer;
+  li.appendChild(spanQuestion.cloneNode(true));
+  li.appendChild(spanAnswer.cloneNode(true));
+  return li
+};
+
 function createListWords(word) {
   const li = document.createElement('li');
   li.className = "post words";
@@ -152,8 +233,7 @@ function createListWords(word) {
   li.appendChild(spanQuestion.cloneNode(true));
   li.appendChild(spanHint.cloneNode(true));
   li.appendChild(spanAnswer.cloneNode(true));
-  fragment.appendChild(li)
-  return fragment
+  return li
 };
 function createListPhrase(phrase) {
   const li = document.createElement('li');
@@ -169,32 +249,8 @@ function createListPhrase(phrase) {
   spanAnswer.textContent = phrase.answer;
   li.appendChild(spanQuestion.cloneNode(true));
   li.appendChild(spanAnswer.cloneNode(true));
-  fragment.appendChild(li)
-  return fragment
+  return li
 };
-
-//Shuffle function for array
-Array.prototype.shuffle = function () {
-  let i, j, temp;
-  i = this.length;
-  while (i) {
-    j = Math.floor(Math.random() * i);
-    i--;
-    temp = this[i];
-    this[i] = this[j];
-    this[j] = temp;
-  }
-  return this;
-}
-
-// create each list (words and question)
-wordsList.shuffle().forEach(word => words.appendChild(createListWords(word)))
-questionList.shuffle().forEach(phrase => questions.appendChild(createListPhrase(phrase)))
-
-
-//get div from document (for random)
-const todayWords = document.getElementById("todayWords")
-
 //Create Today's words
 function todayRandomWords() {
   const oneWord = document.createElement('p')
@@ -218,12 +274,11 @@ function todayRandomWords() {
   oneWord.appendChild(spanAnswer.cloneNode(true))
   return oneWord
 }
-todayWords.appendChild(todayRandomWords())
-
 //Create Today's question
 function todayRandomQuestionPhrase() {
   const oneQuestion = document.createElement('p')
   oneQuestion.className = "today-words"
+  oneQuestion.id = "todayQuestion"
   const questionIcon = document.createElement('i')
   questionIcon.className = "fi-volume"
   questionIcon.onclick = () => {
@@ -241,38 +296,15 @@ function todayRandomQuestionPhrase() {
   oneQuestion.appendChild(spanAnswer.cloneNode(true))
   return oneQuestion
 }
-todayWords.appendChild(todayRandomQuestionPhrase())
-
 //Create shuffle function
 function shuffleWords() {
   const oldWord = document.querySelector(".today-words")
-  const oldQuestion = document.querySelector(".today-question")
+  const oldQuestion = document.getElementById("todayQuestion")
   const newWord = todayRandomWords()
   const newQuestion = todayRandomQuestionPhrase()
   todayWords.replaceChild(newWord, oldWord)
   todayWords.replaceChild(newQuestion, oldQuestion)
 }
-
-//Select random 10 words
-const copy = wordsList.slice();
-const randomWords10 = [...Array(10)].map(() => copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
-
-//Get id or class
-const testPaper = document.getElementById("paperQandA")
-const inputAnswer = document.querySelectorAll(".testTextInput")
-
-//Create elements for span and input
-const spanQ = document.createElement('span')
-spanQ.className = "test-question"
-const spanH = document.createElement('span')
-spanH.className = "test-hint"
-const input = document.createElement('input')
-input.className = "testTextInput"
-input.type = "text"
-const spanA = document.createElement('span')
-spanA.className = "test-answer"
-
-
 //Create a list to question
 function paperText(test) {
   const li = document.createElement('li')
@@ -285,28 +317,19 @@ function paperText(test) {
   li.appendChild(spanA.cloneNode(true))
   return li
 }
-randomWords10.forEach(test => testPaper.appendChild(paperText(test)))
-
 function sendAnswer() {
   const li = document.querySelectorAll(".test-low")
   li.forEach((test) => {
-    const spanQ = test.querySelector(".test-question").textContent
-    const inputA = test.querySelector(".testTextInput").value
-    const spanA = test.querySelector(".test-answer")
-    const trueAnswer = randomWords10.find(word => word.answer === spanQ)
-    if (inputA === trueAnswer.question) {
-      spanA.className = "test-answer correct"
-      spanA.textContent = "right!"
+    const question = test.querySelector(".test-question").textContent
+    const answer = test.querySelector(".testTextInput").value
+    const resultEl = test.querySelector(".test-answer")
+    const trueAnswer = randomWords10.find(word => word.answer === question)
+    if (answer === trueAnswer.question) {
+      resultEl.className = "test-answer correct"
+      resultEl.textContent = "right!"
     } else {
-      spanA.className = "test-answer incorrect"
-      spanA.textContent = "wrong"
+      resultEl.className = "test-answer incorrect"
+      resultEl.textContent = "wrong"
     }
   })
 }
-
-// function resetQuestion() {
-//   const oldList = document.querySelectorAll(".test-low")
-//   const newList = randomWords10.map(test => paperText(test))
-//   testPaper.replaceChild(newList, oldList)
-// }
-
