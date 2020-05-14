@@ -253,8 +253,6 @@ function shuffleWords() {
   todayWords.replaceChild(newQuestion, oldQuestion)
 }
 
-
-
 //Select random 10 words
 const copy = wordsList.slice();
 const randomWords10 = [...Array(10)].map(() => copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
