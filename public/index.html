@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>LiJLiT | Gaijin who lost his way</title>
+  <link rel="stylesheet" href="default.css" />
+  <link rel="stylesheet" href="sample.css" />
+  <script defer src="sample.js"></script>
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="header-logo">
+      <a href="#">
+        <p>LiJLiT</p>
+      </a>
+    </div>
+  </header>
+  <div class="main-wrapper">
+    <div class="side-area">
+      <a href="#words">
+        <p>Words</p>
+      </a>
+      <a href="#questionPhrase">
+        <p>Question</p>
+      </a>
+      <a href="#test">
+        <p>Test</p>
+      </a>
+      <a href="#twitter">
+        <p>Twitter</p>
+      </a>
+    </div>
+    <div class="main-area">
+      <h1>English taught by a <span>gaijin</span> who <span>lost his way</span>.</h1>
+      <div class="section today-area">
+        <p class="today-title">
+          Today's English words and question
+          <input class="btn white" type="button" value="shuffle" onclick="shuffleWords()" />
+        </p>
+        <div id="todayWords" class="today-content"></div>
+      </div>
+      <div class="section">
+        <h2 id="words">Words</h2>
+        <div class="container">
+          <ul id="allWordsList" class="post-group"></ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2 id="questionPhrase">Question</h2>
+        <div class="container">
+          <ul id="allQuestionList" class="post-group"></ul>
+          </ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2 id="test">Test</h2>
+        <div class="test-content">
+          <ul id="paperQandA" class="test-paper"></ul>
+          <input class="btn pink" type="button" value="Send answer" onclick="sendAnswer()">
+          <!-- <input class="btn pink" type="button" value="Change" onclick="resetQuestion()"> -->
+        </div>
+      </div>
+      <div class="section">
+        <h2 id="twitter">Twitter</h2>
+        <div class="social-area">
+          <div class="twitter-tl">
+            <a class="twitter-timeline" href="https://twitter.com/stray_gaijin?ref_src=twsrc%5Etfw">Tweets by
+              stray_gaijin</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
